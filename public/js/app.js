@@ -13,7 +13,7 @@ form.addEventListener('submit', (event) => {
     para2.textContent = ''
 
     // fetch is a browser api used for fetching data from some url from client system
-    fetch("http://localhost:3000/weather?address=" + address).then((response) => {
+    fetch("/weather?address=" + address).then((response) => {
         response.json().then((data) => {
             if (data.error) para1.textContent = data.error
             else {

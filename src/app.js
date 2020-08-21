@@ -77,6 +77,6 @@ app.get("*", (req, res) => {
     res.send("404 Page");
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server is running at port 3000')
 })
