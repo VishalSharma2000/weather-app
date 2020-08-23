@@ -4,12 +4,21 @@ body {
     max-width: 650px;
     margin: 0 auto;
     padding: 20px;
+    /* background-color: #f1f7f1; */
 
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
     /* overflow: hidden; */
+}
+
+.weather-icon {
+    width: 200px;
+}
+
+.weather-detail {
+    line-height: 30px;
 }
 
 footer {
@@ -22,10 +31,15 @@ footer {
 h1 {
     font-size: 65px;
     margin-top: 20px;
+    text-align: center;
 }
 
 .main-content {
     flex-grow: 1;
+}
+
+.navigation {
+    text-align: center;    
 }
 
 .navigation ul {
@@ -34,7 +48,7 @@ h1 {
 
 .navigation li{
     display: inline-block;
-    margin-right: 16px;
+    margin-right: 66px;
 }
 
 .navigation li a {
@@ -46,6 +60,9 @@ h1 {
 input {
     border: 1px solid #cccccc;
     padding: 8px;
+    border-radius: 5px;
+    height: 2.8rem;
+    font-size: 16px;
 }
 
 .address {
@@ -54,13 +71,16 @@ input {
 
 button {
     border: 1px solid #888888;
-    padding: 8px;
+    padding: 12px;
     color: white;
     background: #888888;
     cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .weatherForm {
+    text-align: center;
     margin-top: 50px;
     background-repeat: none;
     background-position: center;
