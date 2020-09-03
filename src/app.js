@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const hbs = require('hbs')
 const request = require('request')
 const getWeather = require('./utils/getWeather')
+const geocode = require('./utils/geocode');
 
 const app = express()
 
@@ -54,17 +55,15 @@ app.get('/weather', (req, res) => {
             error: 'Please provide the address term'
         })
     }
-    
-    getWeather(address, (error, forecast) => {
-        if(error) {
-            return res.send({
-                error
-            })
-        }
 
-        return res.send({
-            address,
-            forecast
+    geocode(address, (error, result) => {
+        if(error) return res.send({error});
+
+        getWeather(result, (error, response) => {
+            if(error) return res.send({error});
+
+            console.log('in rout', response);  
+            return res.send({data: response});
         })
     })
 })

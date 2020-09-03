@@ -1,32 +1,30 @@
 const request = require('request');
 const dotenv = require('dotenv').config();
+const geocode = require('./geocode');
 
-const {apikey} = process.env;
+const {weatherApi} = process.env;
 
-const getWeather = (address, callback) => {
-    url = "https://api.openweathermap.org/data/2.5/weather?appid=" + apikey + "&q=" + address + "&units=metric";
+const getWeather = (geocode, callback) => {
+    let {lat, lng} = geocode.geometry;
+    lat = lat.toFixed(2); lng = lng.toFixed(2);
 
-    // json: true => adds an header to the request, to automatically convert the JSON string into js objects.
-    request({url: url, json: true}, (error, response) => {
-        // since the response is JSON we need to parse and convert it into object.
-        if(error) {
-            callback("Unable to connect to weather service!", undefined);
-        } else if(response.body.message) {
-            callback("Unable to find location. Please give more details about the location.", undefined);
-        } else {
-            const data = response.body;
-            // console.log(data);
-            callback(undefined,{
-                coordinate: {
-                    ...data.coord
-                },
-                forecast: ("It is currently " + data.main.temp + " degrees out. There is a chance of " + data.weather[0].description),
-                country: data.sys.country,
-                icon: data.weather[0].icon
-            });
-            // callback(undefined, data);
-        }
-    });    
+    url = "https://api.openweathermap.org/data/2.5/weather?appid=" + weatherApi + "&lat=" + lat + "&lon=" + lng +"&units=metric";
+    // console.log(url);
+    request({url, json: true}, (error, response) => {
+        if(error) callback(error, undefined);
+        else if(response.body.cod != 200) callback(response.body.message, undefined);
+        else {
+            console.log(response.body);
+            callback(undefined, {
+            forecast: {
+                temp: response.body.main.temp,
+                desc: response.body.weather[0].description,
+                icon: response.body.weather[0].icon
+            },
+            address: geocode.components,
+            coordinates: {...geocode.geometry}
+        });}     
+    })
 }
 
 module.exports = getWeather
